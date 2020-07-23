@@ -29,7 +29,7 @@ function promptUser() {
     },
     {
       type: "input",
-      name: "idNum",
+      name: "id",
       message: "What is your ID number?"
     },
     {
@@ -47,34 +47,6 @@ function promptUser() {
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
-function generateHTML(answers) {
-  if (promptUser.role === "engineer"){
-    return `
-    <div class="card employee-card">
-      <div class="card-header">
-        <h2 class="card-title">${this.name}</h2>
-        <h3 class="card-title"><i class="fas fa-glasses mr-2"></i>${this.role}</h3>
-      </div>
-      <div class="card-body">
-        <ul class="list-group">
-            <li class="list-group-item">ID:${this.idNum}</li>
-            <li class="list-group-item">Email: <a href="mailto:${this.email}">${this.email}</a></li>
-            <li class="list-group-item">GitHub: <a href="https://github.com/${this.github}" target="_blank" rel="noopener noreferrer">${this.github}</a></li>
-        </ul>
-      </div>
-    </div>
-    `
-  } else if (promptUser.role === "intern"){
-    return `
-    
-    `
-  } else {
-    return `
-    
-    `,
-  }
-};
-
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
@@ -84,7 +56,6 @@ function generateHTML(answers) {
 promptUser()
   .then(function(answers) {
     const html = generateHTML(answers);
-
     return writeFileAsync("team.html", html);
   })
   .then(function() {
