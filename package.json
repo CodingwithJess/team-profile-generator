@@ -1,7 +1,7 @@
 {
   "name": "team-profile-generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "A software engineering team generator command line application used to generate a webpage that will display the team's basic info. ",
   "main": "index.js",
   "dependencies": {
     "inquirer": "^7.3.2",
