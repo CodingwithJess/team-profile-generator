@@ -10,57 +10,65 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const employees =[];
-var employee;
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-const questions = [
-  {
-    type: "input",
-    message: "What is the employees name?",
-    name: "name",
-  },
-  {
-    type:"list",
-    message: "What is the employee's role?",
-    choices:["Intern", "Engineer", "Manager"],
-    name: "role",
-  },
-  {
-    type: "input",
-    message: "What is the employees email?",
-    name: "email",
-  },
-  {
-    type: "input",
-    message: "What is the employees ID?",
-    name: "id",
-  },
-]
-
-const getEmployees = () => {
-  inquirer.prompt(questions)
-    .then (({
-      name, role, email, id
-    }) => {
-      let roleAns;
-        if (role === "Intern"){
-          roleAns = "What is employees Github username?"
+function promptUser(){
+  return inquirer.prompt({
+      type:"list",
+      message: "What is the employee's role?",
+      choices:["Intern", "Engineer", "Manager", "Done adding employees!"],
+      name: "role",
+    })
+    .then (function (answers){
+        switch (answers.type){
+            case "Intern":
+              makeIntern();
+              break;
+            case "Engineer":
+              makeEngineer();
+              break;
+            case "Manager":
+              makeManager();
+              break;
+            case "Done adding employees!":
+              renderHtml();
+              break;
         }
     })
 }
 
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
+function makeIntern(){
+  return inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the employees name?",
+      name: "name",
+    },
+    {
+      type: "input",
+      message: "What is the employees email?",
+      name: "email",
+    },
+    {
+      type: "input",
+      message: "What is the employees ID?",
+      name: "id",
+    },
+    {
+      type: "input",
+      message: "What school does the intern go to?",
+      name: "school",
+    },  
+  ])
+  .then(function({name, email, id, school}){
+    const intern = new Intern(name, email, id, school)
+    employees.push(intern);
 
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
+    promptUser();
+  })
+}
 
 function renderHtml(){
   fs.writeFileSync(outputPath, render(employees))
