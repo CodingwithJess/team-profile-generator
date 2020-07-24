@@ -125,7 +125,7 @@ function makeManager(){
     },  
   ])
   .then(function({name, email, id, officeNum}){
-    const manager = new Intern(name, email, id, officeNum)
+    const manager = new Manager(name, email, id, officeNum)
     employees.push(manager);
 
     promptUser();
@@ -134,7 +134,7 @@ function makeManager(){
 
 function renderHtml(){
   fs.writeFileSync(outputPath, render(employees))
-  console.log(`Write to file was a success!`)
+  console.log("Write to file was a success!")
 }
 
 promptUser(); 
