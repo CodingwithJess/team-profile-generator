@@ -22,7 +22,7 @@ function promptUser(){
       name: "role",
     })
     .then (function (answers){
-        switch (answers.type){
+        switch (answers.role){
             case "Intern":
               makeIntern();
               break;
@@ -35,9 +35,9 @@ function promptUser(){
             case "Done adding employees!":
               renderHtml();
               break;
-        }
-    })
-}
+        };
+    });
+};
 
 function makeIntern(){
   return inquirer.prompt([
@@ -67,8 +67,8 @@ function makeIntern(){
     employees.push(intern);
 
     promptUser();
-  })
-}
+  });
+};
 
 function makeEngineer(){
   return inquirer.prompt([
@@ -98,8 +98,8 @@ function makeEngineer(){
     employees.push(engineer);
 
     promptUser();
-  })
-}
+  });
+};
 
 function makeManager(){
   return inquirer.prompt([
@@ -129,8 +129,8 @@ function makeManager(){
     employees.push(manager);
 
     promptUser();
-  })
-}
+  });
+};
 
 function renderHtml(){
   fs.writeFileSync(outputPath, render(employees))
