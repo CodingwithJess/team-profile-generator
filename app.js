@@ -3,45 +3,53 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
-const util = require("util");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const writeFileAsync = util.promisify(fs.writeFile);
-
+const employees =[];
+var employee;
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-function promptUser() {
-  return inquirer.prompt([
-    {
-      type: "input",
-      name: "name",
-      message: "What is your name?"
-    },
-    {
-      type: "input",
-      name: "email",
-      message: "What is your email address?"
-    },
-    {
-      type: "input",
-      name: "id",
-      message: "What is your ID number?"
-    },
-    {
-      type: "list",
-      name: "role",
-      message: "What is your role with the company?",
-      choices : ["engineer", "intern", "manager"]
 
-    },
-  ]);
-};
+const questions = [
+  {
+    type: "input",
+    message: "What is the employees name?",
+    name: "name",
+  },
+  {
+    type:"list",
+    message: "What is the employee's role?",
+    choices:["Intern", "Engineer", "Manager"],
+    name: "role",
+  },
+  {
+    type: "input",
+    message: "What is the employees email?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What is the employees ID?",
+    name: "id",
+  },
+]
 
+const getEmployees = () => {
+  inquirer.prompt(questions)
+    .then (({
+      name, role, email, id
+    }) => {
+      let roleAns;
+        if (role === "Intern"){
+          roleAns = "What is employees Github username?"
+        }
+    })
+}
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
@@ -53,18 +61,13 @@ function promptUser() {
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
-promptUser()
-  .then(function(answers) {
-    const html = generateHTML(answers);
-    return writeFileAsync("team.html", html);
-  })
-  .then(function() {
-    console.log("Successfully wrote to team.html");
-  })
-  .catch(function(err) {
-    console.log(err);
-  });
 
+function renderHtml(){
+  fs.writeFileSync(outputPath, render(employees))
+  console.log(`Write to file was a success!`)
+}
+
+promptUser(); 
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
 // employee type.
