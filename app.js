@@ -70,6 +70,68 @@ function makeIntern(){
   })
 }
 
+function makeEngineer(){
+  return inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the employees name?",
+      name: "name",
+    },
+    {
+      type: "input",
+      message: "What is the employees email?",
+      name: "email",
+    },
+    {
+      type: "input",
+      message: "What is the employees ID?",
+      name: "id",
+    },
+    {
+      type: "input",
+      message: "What is the engineers Github username?",
+      name: "github",
+    },  
+  ])
+  .then(function({name, email, id, github}){
+    const engineer = new Engineer(name, email, id, github)
+    employees.push(engineer);
+
+    promptUser();
+  })
+}
+
+function makeManager(){
+  return inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the employees name?",
+      name: "name",
+    },
+    {
+      type: "input",
+      message: "What is the employees email?",
+      name: "email",
+    },
+    {
+      type: "input",
+      message: "What is the employees ID?",
+      name: "id",
+    },
+    {
+      type: "input",
+      message: "What is the managers office number?",
+      name: "officeNum",
+    },  
+  ])
+  .then(function({name, email, id, officeNum}){
+    const manager = new Intern(name, email, id, officeNum)
+    employees.push(manager);
+
+    promptUser();
+  })
+}
+
 function renderHtml(){
   fs.writeFileSync(outputPath, render(employees))
   console.log(`Write to file was a success!`)
